@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "/Users/mac/Dropbox-202200/Dropbox/WebstormProjects/web3-related/MyNFT/contracts/MyNFT.sol": {
-      "lastModificationDate": 1721381877396,
-      "contentHash": "bffebf72d263751ecfd31ce60bba7a56",
+      "lastModificationDate": 1721383229301,
+      "contentHash": "f32c701c3e8ac8e0a99b977d2ab30c12",
       "sourceName": "contracts/MyNFT.sol",
       "solcConfig": {
         "version": "0.8.24",
