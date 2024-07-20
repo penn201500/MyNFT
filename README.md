@@ -49,9 +49,20 @@ To deploy the MyNFT contract on the Holesky testnet, follow these steps:
 
    This command deploys the contract to the Holesky testnet using the account configured in your Hardhat setup.
 
+To deploy the MyNFT contract on the Sepolia testnet, follow these steps:
+
+1. **Deploy the Contract:**
+
+   ```bash
+   npx hardhat run scripts/deploy.js --network sepolia
+   ```
+
+   This command deploys the contract to the Sepolia testnet using the account configured in your Hardhat setup.
+
 ## Useful Links
 
 - Holesky Testnet: [Holesky URL](https://holesky.beaconcha.in/)
+- Sepolia Testnet: [Sepolia Info](https://sepolia.dev/)
 - Alchemy: [Official Site](https://www.alchemy.com/) | [Documentation](https://docs.alchemy.com/alchemy/)
 
 ## Contract Features
