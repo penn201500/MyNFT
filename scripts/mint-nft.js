@@ -12,26 +12,26 @@ console.log(`Contract ABI: ${JSON.stringify(contract)}`)
 const contractAddress = "0x600E28A6FB8afa17Cb65532501060C0c29DA5B04"
 const nftContract = new web3.eth.Contract(contract.abi, contractAddress)
 
-async function mintNFT(tokenURI) {
-  const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest")
+// async function mintNFT(tokenURI) {
+//   const nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest")
 
-  const tx = {
-    from: PUBLIC_KEY,
-    to: contractAddress,
-    nonce: nonce,
-    gas: 500000,
-    data: nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI(),
-  }
+//   const tx = {
+//     from: PUBLIC_KEY,
+//     to: contractAddress,
+//     nonce: nonce,
+//     gas: 500000,
+//     data: nftContract.methods.mintNFT(PUBLIC_KEY, tokenURI).encodeABI(),
+//   }
 
-  const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
-  signPromise
-    .then(signedTx => {
-      web3.eth.sendSignedTransaction(signedTx.rawTransaction).on("receipt", receipt => console.log("Transaction receipt: ", receipt))
-    })
-    .catch(err => {
-      console.log("Transaction failed because of error: ", err)
-    })
-}
+//   const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
+//   signPromise
+//     .then(signedTx => {
+//       web3.eth.sendSignedTransaction(signedTx.rawTransaction).on("receipt", receipt => console.log("Transaction receipt: ", receipt))
+//     })
+//     .catch(err => {
+//       console.log("Transaction failed because of error: ", err)
+//     })
+// }
 
 async function mintMultipleNFTs(tokenURIs) {
   let nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest") // Get the latest nonce
