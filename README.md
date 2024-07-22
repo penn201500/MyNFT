@@ -69,3 +69,24 @@ To deploy the MyNFT contract on the Sepolia testnet, follow these steps:
 
 - **Minting:** Only the owner can mint new NFTs.
 - **Ownership:** The contract uses the `Ownable` extension to handle ownership.
+
+## Mint NFTs
+
+To mint multiple NFTs, modify the `tokenURIs` array in the script with your desired NFT metadata links and then execute cmd:
+
+```javascript
+const tokenURIs = [
+    "https://gateway.pinata.cloud/ipfs/QmQUAvaacaGBJQsyYJ7tLP88jYfypsQxhzsp16yuWUbTmp", //NFT metadata URL
+    "https://gateway.pinata.cloud/ipfs/Qmc8JHqeKr2B6rKr1oZm4dS7vcYv6ksLG7Cb6i6uwSQwj6",
+    "QmAnotherTokenURIHere",
+    "QmAndAnotherOneHere"
+];
+
+mintMultipleNFTs(tokenURIs);
+```
+
+```bash
+node scripts/mint-nft.js
+```
+
+This will mint each NFT specified in the `tokenURIs` array, handling transaction details and nonce management automatically.
