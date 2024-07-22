@@ -34,13 +34,49 @@ async function mintNFT(tokenURI) {
 }
 
 async function mintMultipleNFTs(tokenURIs) {
-    for (let i = 0; i < tokenURIs.length; i++) {
-      await mintNFT(tokenURIs[i]); // Wait for each transaction to be mined
+  let nonce = await web3.eth.getTransactionCount(PUBLIC_KEY, "latest") // Get the latest nonce
+
+  for (let i = 0; i < tokenURIs.length; i++) {
+    // Fetch and adjust the gas price
+    let gasPrice = await web3.eth.getGasPrice()
+    gasPrice = web3.utils.toBN(gasPrice).mul(web3.utils.toBN(110)).div(web3.utils.toBN(100)) // Increase by 10%
+
+    // Prepare the transaction data for gas estimation
+    const txData = nftContract.methods.mintNFT(PUBLIC_KEY, tokenURIs[i]).encodeABI()
+
+    // Estimate gas limit for the transaction dynamically
+    const estimatedGas = await web3.eth.estimateGas({
+      from: PUBLIC_KEY,
+      to: contractAddress,
+      data: txData,
+      gasPrice: gasPrice.toString(),
+    })
+
+    // Increase estimated gas by a certain percentage to ensure transaction success
+    const gasLimit = web3.utils.toBN(estimatedGas).mul(web3.utils.toBN(120)).div(web3.utils.toBN(100)) // Buffer of 20%
+
+    const tx = {
+      from: PUBLIC_KEY,
+      to: contractAddress,
+      nonce: nonce++, // Increment nonce for each transaction
+      gas: gasLimit.toString(), // Use dynamically estimated gas limit
+      gasPrice: gasPrice.toString(), // Use the dynamically calculated gas price
+      data: txData,
     }
+
+    const signPromise = web3.eth.accounts.signTransaction(tx, PRIVATE_KEY)
+    signPromise
+      .then(signedTx => {
+        web3.eth.sendSignedTransaction(signedTx.rawTransaction).on("receipt", receipt => console.log("Transaction receipt: ", receipt))
+      })
+      .catch(err => {
+        console.log("Transaction failed because of error: ", err)
+      })
   }
+}
 
-  const tokenURIs = [
-    "ipfs://QmPiVrqCa1d8sRhcEHtqsMdsoFqLkviNf8WZ8PorxyiZFV",
-  ];
+const tokenURIs = [
+    "https://gateway.pinata.cloud/ipfs/QmNq5ryo92aqFBSYuJfnZybN9cWCR8HgSqembMz6SZpeJb", // NFT metadata URL
+    "https://gateway.pinata.cloud/ipfs/QmPiVrqCa1d8sRhcEHtqsMdsoFqLkviNf8WZ8PorxyiZFV"]
 
-  mintMultipleNFTs(tokenURIs);
+mintMultipleNFTs(tokenURIs)
